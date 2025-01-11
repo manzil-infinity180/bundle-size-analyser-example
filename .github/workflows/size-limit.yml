@@ -1,6 +1,5 @@
 name: "size"
 on:
-  push:
   pull_request:
 permissions:
   pull-requests: write
