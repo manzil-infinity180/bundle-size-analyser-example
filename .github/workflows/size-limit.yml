@@ -1,17 +1,26 @@
-name: "size"
+name: CI
+
 on:
   pull_request:
-    branches:
-      - main
-permissions:
-  pull-requests: write
+
 jobs:
-  size:
+  build:
     runs-on: ubuntu-latest
-    env:
-      CI_JOB_NUMBER: 1
+
     steps:
-      - uses: actions/checkout@v1
-      - uses: andresz1/size-limit-action@v1
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Check bundle size
+        run: npm run size-limit
